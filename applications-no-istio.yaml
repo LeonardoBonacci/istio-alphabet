@@ -13,12 +13,34 @@ spec:
         app: alpha-service
     spec:
       containers:
-      - image: leonardobonacci/istio-alpha:latest
+      - image: leonardobonacci/istio-alpha:1.0
         name: alpha-service
         env:
         - name: SPRING_PROFILES_ACTIVE
-          value: production
-        imagePullPolicy: Never
+          value: cloud
+        ports:
+        - containerPort: 8080
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: beta-service
+spec:
+  selector:
+    matchLabels:
+      app: beta-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: beta-service
+    spec:
+      containers:
+      - image: leonardobonacci/istio-beta:1.0
+        name: beta-service
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: cloud
         ports:
         - containerPort: 8080
 ---
@@ -34,3 +56,15 @@ spec:
       port: 8080
       nodePort: 30080
   type: NodePort
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: the-beta-service
+spec:
+  selector:
+    app: beta-service
+  ports:
+    - name: http
+      port: 8080
+  type: ClusterIP

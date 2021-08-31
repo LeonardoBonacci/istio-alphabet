@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>guru.bonacci.istio</groupId>
-	<artifactId>alpha</artifactId>
+	<artifactId>beta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alpha</name>
+	<name>beta</name>
 	<description>Go</description>
 
 	<properties>
@@ -22,11 +22,6 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-web</artifactId>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.cloud</groupId>
-			<artifactId>spring-cloud-starter-openfeign</artifactId>
-			<version>3.0.3</version>
 		</dependency>
 
 		<dependency>
@@ -47,7 +42,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>alpha</finalName>
+					<finalName>beta</finalName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

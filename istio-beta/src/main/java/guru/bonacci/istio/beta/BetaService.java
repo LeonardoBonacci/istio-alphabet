@@ -1,4 +1,4 @@
-package guru.bonacci.istio.beta.services;
+package guru.bonacci.istio.beta;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

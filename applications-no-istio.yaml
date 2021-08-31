@@ -13,7 +13,7 @@ spec:
         app: alpha-service
     spec:
       containers:
-      - image: leonardobonacci/istio-alpha:1.0
+      - image: leonardobonacci/istio-alpha:1.1
         name: alpha-service
         env:
         - name: SPRING_PROFILES_ACTIVE
@@ -36,7 +36,7 @@ spec:
         app: beta-service
     spec:
       containers:
-      - image: leonardobonacci/istio-beta:1.0
+      - image: leonardobonacci/istio-beta:1.1
         name: beta-service
         env:
         - name: SPRING_PROFILES_ACTIVE

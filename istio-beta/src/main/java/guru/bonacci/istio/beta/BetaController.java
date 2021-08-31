@@ -1,6 +1,5 @@
-package guru.bonacci.istio.alpha.controllers;
+package guru.bonacci.istio.beta;
 
-import guru.bonacci.istio.alpha.services.AlphaService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,9 +12,9 @@ import java.util.Date;
 @Controller
 @RequestMapping("/")
 @RequiredArgsConstructor
-public class AlphaController {
+public class BetaController {
 
-	private final AlphaService service;
+	private final BetaService service;
 
 	@GetMapping("/")
 	@ResponseBody
@@ -23,9 +22,9 @@ public class AlphaController {
 		return "Hi at " + new Date();
 	}
 
-	@GetMapping("/alpha/{foo}")
+	@GetMapping("/beta/{foo}")
 	@ResponseBody
-	public String alpha(@PathVariable("foo") String foo) {
-		return service.get(foo);
+	public String beta(@PathVariable("foo") String foo) {
+		return service.echo(foo);
 	}
 }

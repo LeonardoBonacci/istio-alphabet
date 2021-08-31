@@ -1,6 +1,5 @@
-package guru.bonacci.istio.alpha.services;
+package guru.bonacci.istio.alpha;
 
-import lombok.AllArgsConstructor;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

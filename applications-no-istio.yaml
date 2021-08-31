@@ -1,0 +1,36 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: alpha-service
+spec:
+  selector:
+    matchLabels:
+      app: alpha-service
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: alpha-service
+    spec:
+      containers:
+      - image: leonardobonacci/istio-alpha:latest
+        name: alpha-service
+        env:
+        - name: SPRING_PROFILES_ACTIVE
+          value: production
+        imagePullPolicy: Never
+        ports:
+        - containerPort: 8080
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: the-alpha-service
+spec:
+  selector:
+    app: alpha-service
+  ports:
+    - name: http
+      port: 8080
+      nodePort: 30080
+  type: NodePort

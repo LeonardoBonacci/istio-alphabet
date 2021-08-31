@@ -10,3 +10,5 @@ minikube start --memory 4096 --driver=docker --ports=127.0.0.1:30080:30080,127.0
 * 31002 grafana
 * 30080 fleetman-webapp
 * 30081 fleetman-api-gateway
+
+* curl localhost:30080

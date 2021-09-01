@@ -1,6 +1,5 @@
 package guru.bonacci.istio.gamma;
 
-import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -13,6 +12,7 @@ import org.springframework.kafka.annotation.EnableKafka;
 import org.springframework.kafka.annotation.EnableKafkaStreams;
 import org.springframework.kafka.annotation.KafkaStreamsDefaultConfiguration;
 import org.springframework.kafka.config.KafkaStreamsConfiguration;
+import org.springframework.kafka.support.KafkaStreamBrancher;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,9 +43,13 @@ public class KafkaStreamsConfig {
                 .peek((k,v) -> log.info("incoming {}", v))
                 .mapValues((ValueMapper<String, Integer>) String::length);
 
-        barStream.to("bar2", Produced.with(Serdes.String(), Serdes.Integer()));
-
-        barStream.print(Printed.toSysOut());
-        return barStream;
+        return new KafkaStreamBrancher<String, Integer>()
+                .branch((k, v) -> v % 2 == 0, evenStream -> evenStream
+                        .peek((k, v) -> log.info("Even: {}", v))
+                        .to("bar-even", Produced.with(Serdes.String(), Serdes.Integer())))
+                .defaultBranch(oddStream -> oddStream
+                        .peek((k, v) -> log.info("Odd: {}", String.valueOf(v)))
+                        .to("bar-odd", Produced.with(Serdes.String(), Serdes.Integer())))
+                .onTopOf(barStream);
     }
 }

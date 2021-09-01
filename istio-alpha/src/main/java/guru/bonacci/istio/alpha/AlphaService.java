@@ -12,6 +12,7 @@ public class AlphaService {
     private final BetaClient betaClient;
 
     public String get(String foo) {
+        log.info("Message '{}'", foo);
         String response = betaClient.get(foo);
         log.info("The response will be '{}'", response);
         return response;

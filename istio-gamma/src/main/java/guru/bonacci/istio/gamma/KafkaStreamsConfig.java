@@ -1,5 +1,7 @@
 package guru.bonacci.istio.gamma;
 
+import brave.kafka.streams.KafkaStreamsTracing;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.kafka.common.serialization.Serdes;
 import org.apache.kafka.streams.StreamsBuilder;
@@ -21,10 +23,13 @@ import java.util.Map;
 @EnableKafka
 @Configuration
 @EnableKafkaStreams
+@RequiredArgsConstructor
 public class KafkaStreamsConfig {
 
     @Value( "${spring.application.name}" ) String appName;
     @Value( "${kafka.broker}" ) String broker;
+
+    private final KafkaStreamsTracing kafkaStreamsTracing;
 
     @Bean(name = KafkaStreamsDefaultConfiguration.DEFAULT_STREAMS_CONFIG_BEAN_NAME)
     public KafkaStreamsConfiguration kStreamsConfigs() {
@@ -40,15 +45,21 @@ public class KafkaStreamsConfig {
     public KStream<String, Integer> kStream(StreamsBuilder builder) {
         KStream<String, String> fooStream = builder.stream("foo", Consumed.with(Serdes.String(), Serdes.String()));
         KStream<String, Integer> barStream = fooStream
-                .peek((k,v) -> log.info("incoming {}", v))
+                .transformValues(kafkaStreamsTracing.peek("receiving", (k, v) -> {
+                    log.info("incoming {}", v);
+                }))
                 .mapValues((ValueMapper<String, Integer>) String::length);
 
         return new KafkaStreamBrancher<String, Integer>()
                 .branch((k, v) -> v % 2 == 0, evenStream -> evenStream
-                        .peek((k, v) -> log.info("Even: {}", v))
+                        .transformValues(kafkaStreamsTracing.peek("even", (k, v) -> {
+                            log.info("Even: {}", String.valueOf(v));
+                        }))
                         .to("bar-even", Produced.with(Serdes.String(), Serdes.Integer())))
                 .defaultBranch(oddStream -> oddStream
-                        .peek((k, v) -> log.info("Odd: {}", String.valueOf(v)))
+                        .transformValues(kafkaStreamsTracing.peek("odd", (k, v) -> {
+                            log.info("Odd: {}", String.valueOf(v));
+                        }))
                         .to("bar-odd", Produced.with(Serdes.String(), Serdes.Integer())))
                 .onTopOf(barStream);
     }

@@ -32,3 +32,7 @@ minikube image load leonardobonacci/istio-beta:1.0
 * 30081 fleetman-api-gateway
 
 * curl localhost:30080
+
+![Image Alpha trace](pictures/alpha.png)
+
+![Image Theta trace](pictures/theta.png)

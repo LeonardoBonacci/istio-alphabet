@@ -1,5 +1,11 @@
 **No Note: s**
 
+> Alpha REST to Beta
+> Beta Kafka produce to topic foo
+> Gamma KStream bar-odd and bar-even
+> Delta Kafka consume from topic bar-odd and cache messages
+> Theta REST to Delta
+
 https://discuss.istio.io/t/kafka-istio-native-support-for-tracing/8155
 
 docker run -d --name jaeger -e COLLECTOR_ZIPKIN_HTTP_PORT=9411 -p 5775:5775/udp -p 6831:6831/udp -p 6832:6832/udp -p 5778:5778 -p 16686:16686 -p 14268:14268 -p 9411:9411 jaegertracing/all-in-one:1.8

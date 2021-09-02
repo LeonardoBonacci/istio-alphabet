@@ -9,9 +9,9 @@
 		<relativePath/> <!-- lookup parent from repository -->
 	</parent>
 	<groupId>guru.bonacci.istio</groupId>
-	<artifactId>alpha</artifactId>
+	<artifactId>theta</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
-	<name>alpha</name>
+	<name>theta</name>
 	<description>Go</description>
 
 	<properties>
@@ -57,7 +57,7 @@
 				<groupId>org.springframework.boot</groupId>
 				<artifactId>spring-boot-maven-plugin</artifactId>
 				<configuration>
-					<finalName>alpha</finalName>
+					<finalName>theta</finalName>
 					<excludes>
 						<exclude>
 							<groupId>org.projectlombok</groupId>

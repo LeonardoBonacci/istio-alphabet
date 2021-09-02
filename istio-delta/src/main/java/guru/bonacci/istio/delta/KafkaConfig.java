@@ -1,6 +1,7 @@
-package guru.bonacci.istio.alpha;
+package guru.bonacci.istio.delta;
 
 import org.apache.kafka.clients.consumer.ConsumerConfig;
+import org.apache.kafka.common.serialization.IntegerDeserializer;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -27,13 +28,13 @@ public class KafkaConfig {
                 broker);
         props.put(
                 ConsumerConfig.GROUP_ID_CONFIG,
-                "alpha-group");
+                "delta-group");
         props.put(
                 ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG,
                 StringDeserializer.class);
         props.put(
                 ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG,
-                StringDeserializer.class);
+                IntegerDeserializer.class);
         return new DefaultKafkaConsumerFactory<>(props);
     }
 

@@ -19,7 +19,7 @@ public class DeltaService {
 
     private final Map<String, Long> foos = new HashMap<>();
 
-    @KafkaListener(topics = "bar-odd")
+    @KafkaListener(topics = {"bar-odd", "bar-even"})
     public void listenFoo(Integer fooLength,
           @Header(KafkaHeaders.RECEIVED_TIMESTAMP) long ts) {
         log.info("Received Message: {} at {}", fooLength, ts);
